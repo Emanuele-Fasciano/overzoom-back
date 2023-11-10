@@ -34,4 +34,94 @@ router.post('/products', (req, res) => __awaiter(void 0, void 0, void 0, functio
         res.status(500).json({ error: 'Si è verificato un errore durante l\'inserimento del prodotto.' });
     }
 }));
+// rotta GET per ottenere tutti sui prodotti
+router.get('/products', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        // Ottieni tutti i prodotti dal database
+        const products = yield prisma.product.findMany();
+        res.status(200).json(products);
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Si è verificato un errore durante la lettura dei prodotti.' });
+    }
+}));
+// rotta GET per ottenere un prodotto specifico 
+router.get('/products/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const productId = Number(req.params.id);
+    try {
+        // Ottieni il prodotto tramite ID
+        const product = yield prisma.product.findUnique({
+            where: {
+                id: productId,
+            },
+        });
+        if (!product) {
+            return res.status(404).json({ error: 'Prodotto non trovato.' });
+        }
+        res.status(200).json(product);
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Si è verificato un errore durante la lettura del prodotto.' });
+    }
+}));
+// Rotta PUT per l'aggiornamento di un prodotto 
+router.put('/products/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const productId = Number(req.params.id);
+    const { name, price, description } = req.body;
+    try {
+        // Verifica se il prodotto esiste
+        const existingProduct = yield prisma.product.findUnique({
+            where: {
+                id: productId,
+            },
+        });
+        if (!existingProduct) {
+            return res.status(404).json({ error: 'Prodotto non trovato.' });
+        }
+        // Esegui l'aggiornamento del prodotto
+        const updatedProduct = yield prisma.product.update({
+            where: {
+                id: productId,
+            },
+            data: {
+                name,
+                price,
+                description,
+            },
+        });
+        res.status(200).json(updatedProduct);
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Si è verificato un errore durante l\'aggiornamento del prodotto.' });
+    }
+}));
+// Rotta DELETE per eliminare un prodotto
+router.delete('/products/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const productId = Number(req.params.id);
+    try {
+        // Verifica se il prodotto esiste
+        const existingProduct = yield prisma.product.findUnique({
+            where: {
+                id: productId,
+            },
+        });
+        if (!existingProduct) {
+            return res.status(404).json({ error: 'Prodotto non trovato.' });
+        }
+        // Esegui l'eliminazione del prodotto
+        yield prisma.product.delete({
+            where: {
+                id: productId,
+            },
+        });
+        res.status(200).json({ message: 'Prodotto eliminato con successo.' });
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Si è verificato un errore durante l\'eliminazione del prodotto.' });
+    }
+}));
 exports.default = router;
