@@ -4,11 +4,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const products_1 = __importDefault(require("./routes/products")); // Assicurati di specificare il percorso corretto
 const app = (0, express_1.default)();
 const port = process.env.PORT || 3000;
 app.get('/', (req, res) => {
     res.send('Hello, Worl!');
 });
+// Usa il middleware per il parsing del corpo JSON
+app.use(express_1.default.json());
+app.use('/api', products_1.default); // Puoi specificare il percorso che preferisci per le tue rotte
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
