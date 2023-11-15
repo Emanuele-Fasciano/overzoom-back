@@ -7,6 +7,13 @@ const express_1 = __importDefault(require("express"));
 const products_1 = __importDefault(require("./routes/products")); // Assicurati di specificare il percorso corretto
 const app = (0, express_1.default)();
 const port = process.env.PORT || 3000;
+const cors = (req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*"); // Origins whitelist
+    res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE, OPTIONS");
+    res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    next();
+};
+app.use(cors);
 app.get('/', (req, res) => {
     res.send('Hello, Worl!');
 });
