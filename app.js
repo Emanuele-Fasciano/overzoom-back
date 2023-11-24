@@ -4,7 +4,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const products_1 = __importDefault(require("./routes/products")); // Assicurati di specificare il percorso corretto
+const products_1 = __importDefault(require("./routes/products"));
+const orders_1 = __importDefault(require("./routes/orders"));
+const body_parser_1 = __importDefault(require("body-parser"));
 const app = (0, express_1.default)();
 const port = process.env.PORT || 3000;
 const cors = (req, res, next) => {
@@ -19,7 +21,9 @@ app.get('/', (req, res) => {
 });
 // Usa il middleware per il parsing del corpo JSON
 app.use(express_1.default.json());
-app.use('/api', products_1.default); // Puoi specificare il percorso che preferisci per le tue rotte
+app.use(body_parser_1.default.json());
+app.use('/api', products_1.default);
+app.use('/api', orders_1.default);
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });

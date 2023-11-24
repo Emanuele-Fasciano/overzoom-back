@@ -9,7 +9,7 @@ const prisma = new PrismaClient();
 router.post('/products', async (req: Request, res: Response) => {
   try {
     const { name, price, description } = req.body;
-
+    
     const newProduct = await prisma.product.create({
       data: {
         name,
@@ -17,7 +17,7 @@ router.post('/products', async (req: Request, res: Response) => {
         description,
       },
     });
-
+    
     res.status(201).json(newProduct);
   } catch (error) {
     console.error(error);
@@ -29,10 +29,10 @@ router.post('/products', async (req: Request, res: Response) => {
 // rotta GET per ottenere tutti sui prodotti
 router.get('/products', async (req: Request, res: Response) => {
   try {
-
+    
     // Ottieni tutti i prodotti dal database
     const products = await prisma.product.findMany();
-
+    
     res.status(200).json(products);
   } catch (error) {
     console.error(error);

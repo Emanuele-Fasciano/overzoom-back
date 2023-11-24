@@ -16,4 +16,28 @@ model Product {
   name        String
   price       Decimal
   description String
+
+  // Relazione many-to-many con la tabella Order attraverso la tabella pivot OrderProduct
+  orders OrderProduct[]
+}
+
+model Order {
+  id    Int      @id @default(autoincrement())
+  date  DateTime @default(now())
+  total Decimal  @default(0)
+
+  // Relazione many-to-many con la tabella Product attraverso la tabella pivot OrderProduct
+  products OrderProduct[]
+}
+
+model OrderProduct {
+  id Int @id @default(autoincrement())
+
+  orderId Int
+  order   Order @relation(fields: [orderId], references: [id])
+
+  productId Int
+  product   Product @relation(fields: [productId], references: [id])
+
+  quantity Int
 }

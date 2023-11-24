@@ -1,5 +1,7 @@
 import express, { NextFunction, Request, Response } from 'express';
-import products from './routes/products'; // Assicurati di specificare il percorso corretto
+import products from './routes/products';
+import orders from './routes/orders';
+import bodyParser from 'body-parser';
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -19,8 +21,10 @@ app.get('/', (req: Request, res: Response) => {
 
 // Usa il middleware per il parsing del corpo JSON
 app.use(express.json());
+app.use(bodyParser.json());
 
-app.use('/api', products); // Puoi specificare il percorso che preferisci per le tue rotte
+app.use('/api', products);
+app.use('/api', orders);
 
 
 app.listen(port, () => {
