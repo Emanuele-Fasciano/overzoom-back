@@ -54,13 +54,14 @@ router.post("/orders", async (req: Request, res: Response) => {
     });
 
     
-    res.status(201);
+    res.status(201).json(newOrder);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Si è verificato un errore durante l\'inserimento del prodotto.' });
   }
 
 });
+
 
 
 export default router;

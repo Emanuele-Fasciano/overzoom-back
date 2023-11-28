@@ -50,7 +50,7 @@ router.post("/orders", (req, res) => __awaiter(void 0, void 0, void 0, function*
                 },
             });
         }));
-        res.status(201);
+        res.status(201).json(newOrder);
     }
     catch (error) {
         console.error(error);

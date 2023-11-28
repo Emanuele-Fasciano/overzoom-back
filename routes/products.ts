@@ -123,7 +123,7 @@ router.delete('/products/:id', async (req: Request, res: Response) => {
       },
     });
 
-    res.status(200).json({ message: 'Prodotto eliminato con successo.' });
+    res.status(200).json(productId);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Si è verificato un errore durante l\'eliminazione del prodotto.' });
