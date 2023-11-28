@@ -102,13 +102,13 @@ router.put('/products/:id', (req, res) => __awaiter(void 0, void 0, void 0, func
 router.delete('/products/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const productId = Number(req.params.id);
     try {
-        // Verifica se il prodotto esiste
-        const existingProduct = yield prisma.product.findUnique({
+        // Verifico se il prodotto esiste
+        const product = yield prisma.product.findUnique({
             where: {
                 id: productId,
             },
         });
-        if (!existingProduct) {
+        if (!product) {
             return res.status(404).json({ error: 'Prodotto non trovato.' });
         }
         // Esegui l'eliminazione del prodotto
@@ -117,7 +117,7 @@ router.delete('/products/:id', (req, res) => __awaiter(void 0, void 0, void 0, f
                 id: productId,
             },
         });
-        res.status(200).json({ message: 'Prodotto eliminato con successo.' });
+        res.status(200).json(productId);
     }
     catch (error) {
         console.error(error);

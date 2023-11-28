@@ -105,14 +105,14 @@ router.delete('/products/:id', async (req: Request, res: Response) => {
   const productId = Number(req.params.id);
 
   try {
-    // Verifica se il prodotto esiste
-    const existingProduct = await prisma.product.findUnique({
+    // Verifico se il prodotto esiste
+    const product = await prisma.product.findUnique({
       where: {
         id: productId,
       },
     });
 
-    if (!existingProduct) {
+    if (!product) {
       return res.status(404).json({ error: 'Prodotto non trovato.' });
     }
 
