@@ -69,7 +69,15 @@ router.post("/orders", (req, res) => __awaiter(void 0, void 0, void 0, function*
 router.get("/orders", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         // Ottieni tutti i prodotti dal database
-        const orders = yield prisma.order.findMany();
+        const orders = yield prisma.order.findMany({
+            include: {
+                products: {
+                    include: {
+                        product: true,
+                    },
+                },
+            },
+        });
         res.status(200).json(orders);
     }
     catch (error) {

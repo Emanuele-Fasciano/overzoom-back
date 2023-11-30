@@ -6,6 +6,7 @@ import { PrismaClient } from '@prisma/client';
 const router = express.Router();
 const prisma = new PrismaClient();
 
+// rotta POST per creare un nuovo prodotto
 router.post('/products', async (req: Request, res: Response) => {
   try {
     const { name, price, description } = req.body;
@@ -116,7 +117,7 @@ router.delete('/products/:id', async (req: Request, res: Response) => {
       return res.status(404).json({ error: 'Prodotto non trovato.' });
     }
 
-    // Esegui l'eliminazione del prodotto
+    // Eseguo l'eliminazione del prodotto
     await prisma.product.delete({
       where: {
         id: productId,

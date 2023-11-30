@@ -17,6 +17,7 @@ const express_1 = __importDefault(require("express"));
 const client_1 = require("@prisma/client");
 const router = express_1.default.Router();
 const prisma = new client_1.PrismaClient();
+// rotta POST per creare un nuovo prodotto
 router.post('/products', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { name, price, description } = req.body;
@@ -111,7 +112,7 @@ router.delete('/products/:id', (req, res) => __awaiter(void 0, void 0, void 0, f
         if (!product) {
             return res.status(404).json({ error: 'Prodotto non trovato.' });
         }
-        // Esegui l'eliminazione del prodotto
+        // Eseguo l'eliminazione del prodotto
         yield prisma.product.delete({
             where: {
                 id: productId,

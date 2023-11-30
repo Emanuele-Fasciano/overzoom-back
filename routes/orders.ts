@@ -75,7 +75,16 @@ router.get("/orders", async (req: Request, res: Response) => {
   try {
     
     // Ottieni tutti i prodotti dal database
-    const orders = await prisma.order.findMany();
+    const orders = await prisma.order.findMany({
+      
+          include: {  // includo i dati dei prodotti contenuti nell ordine
+            products: {
+              include: {
+                product: true,
+              },
+            },
+          },
+        });
     
     
     res.status(200).json(orders);
