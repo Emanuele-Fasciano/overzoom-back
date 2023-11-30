@@ -16,6 +16,7 @@ model Product {
   name        String
   price       Decimal
   description String
+  deleted     Boolean @default(false)
 
   // Relazione many-to-many con la tabella Order attraverso la tabella pivot OrderProduct
   orders OrderProduct[]

@@ -39,7 +39,11 @@ router.post('/products', (req, res) => __awaiter(void 0, void 0, void 0, functio
 router.get('/products', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         // Ottieni tutti i prodotti dal database
-        const products = yield prisma.product.findMany();
+        const products = yield prisma.product.findMany({
+            where: {
+                deleted: false
+            }
+        });
         res.status(200).json(products);
     }
     catch (error) {
@@ -112,11 +116,10 @@ router.delete('/products/:id', (req, res) => __awaiter(void 0, void 0, void 0, f
         if (!product) {
             return res.status(404).json({ error: 'Prodotto non trovato.' });
         }
-        // Eseguo l'eliminazione del prodotto
-        yield prisma.product.delete({
-            where: {
-                id: productId,
-            },
+        // Eseguo la soft-delete del prodotto
+        yield prisma.product.update({
+            where: { id: productId },
+            data: { deleted: true },
         });
         res.status(200).json(productId);
     }

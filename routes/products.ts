@@ -32,7 +32,11 @@ router.get('/products', async (req: Request, res: Response) => {
   try {
     
     // Ottieni tutti i prodotti dal database
-    const products = await prisma.product.findMany();
+    const products = await prisma.product.findMany({
+      where: {
+        deleted: false
+      }
+    });
     
     res.status(200).json(products);
   } catch (error) {
@@ -117,11 +121,10 @@ router.delete('/products/:id', async (req: Request, res: Response) => {
       return res.status(404).json({ error: 'Prodotto non trovato.' });
     }
 
-    // Eseguo l'eliminazione del prodotto
-    await prisma.product.delete({
-      where: {
-        id: productId,
-      },
+    // Eseguo la soft-delete del prodotto
+    await prisma.product.update({
+      where: { id: productId },
+      data: { deleted: true },
     });
 
     res.status(200).json(productId);
